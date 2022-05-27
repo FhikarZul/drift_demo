@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_demo/data/local/db/entity/todo_entity.dart';
+import 'package:drift_demo/data/local/db/model/todo_join.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
@@ -26,16 +27,38 @@ class AppDb extends _$AppDb {
   @override
   int get schemaVersion => 1;
 
-  Future<List<TodoModel>> getTodos() async {
-    return await select(todo).get();
+  Stream<List<TodoJoin>> getTodos() {
+    final query = select(todo).join([
+      leftOuterJoin(categori, categori.id.equalsExp(todo.katId)),
+      leftOuterJoin(tag, tag.id.equalsExp(todo.tagId))
+    ]);
+
+    return query.watch().map((rows) {
+      return rows.map((row) {
+        print(row.toString());
+        return TodoJoin(
+          todo: row.readTable(todo),
+          categori: row.readTableOrNull(categori),
+          tag: row.readTableOrNull(tag),
+        );
+      }).toList();
+    });
+  }
+
+  Future<List<CategoriModel>> getCategori() async {
+    return await select(categori).get();
+  }
+
+  Future<List<TagModel>> getTag() async {
+    return await select(tag).get();
   }
 
   Future<int> insertTodo(TodoCompanion entity) async {
     return await into(todo).insert(entity);
   }
 
-  Future<int> insertTag(TagCompanion entity) async {
-    return await into(tag).insert(entity);
+  Future<int> upsertTag(TagCompanion entity) async {
+    return await into(tag).insertOnConflictUpdate(entity);
   }
 
   Future<int> insertCategori(CategoriCompanion entity) async {

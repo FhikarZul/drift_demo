@@ -73,6 +73,8 @@ class CategoriModel extends DataClass implements Insertable<CategoriModel> {
       (other is CategoriModel &&
           other.id == this.id &&
           other.name == this.name);
+
+  readTable($TodoTable todo) {}
 }
 
 class CategoriCompanion extends UpdateCompanion<CategoriModel> {
@@ -573,12 +575,16 @@ class $TodoTable extends Todo with TableInfo<$TodoTable, TodoModel> {
   @override
   late final GeneratedColumn<int?> katId = GeneratedColumn<int?>(
       'ketegori_id', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'REFERENCES categori (id)');
   final VerificationMeta _tagIdMeta = const VerificationMeta('tagId');
   @override
   late final GeneratedColumn<int?> tagId = GeneratedColumn<int?>(
       'tag_id', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'REFERENCES tag (id)');
   @override
   List<GeneratedColumn> get $columns => [id, title, content, katId, tagId];
   @override

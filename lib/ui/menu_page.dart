@@ -1,3 +1,4 @@
+import 'package:drift/native.dart';
 import 'package:drift_demo/data/local/db/app_db.dart';
 import 'package:drift_demo/ui/tambah_kategori_page.dart';
 import 'package:drift_demo/ui/view_todo_page.dart';
@@ -21,7 +22,7 @@ class _MenuPageState extends State<MenuPage> {
     // TODO: implement initState
     super.initState();
 
-    appDb = AppDb();
+    appDb = AppDb(NativeDatabase.memory());
     const entity = TagCompanion(
       id: drift.Value(1),
       name: drift.Value('Tag 1'),

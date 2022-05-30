@@ -1,3 +1,4 @@
+import 'package:drift/native.dart';
 import 'package:drift_demo/data/local/db/app_db.dart';
 import 'package:flutter/material.dart';
 import 'package:drift/drift.dart' as drift;
@@ -19,7 +20,7 @@ class _TambahTodoPageState extends State<TambahTodoPage> {
   @override
   void initState() {
     super.initState();
-    appDb = AppDb();
+    appDb = AppDb(NativeDatabase.memory());
   }
 
   @override

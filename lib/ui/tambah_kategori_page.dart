@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart' as drift;
+import 'package:drift/native.dart';
 import 'package:drift_demo/data/local/db/app_db.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _TambahKategoriPageState extends State<TambahKategoriPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    appDb = AppDb();
+    appDb = AppDb(NativeDatabase.memory());
   }
 
   @override
